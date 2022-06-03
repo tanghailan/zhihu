@@ -6,8 +6,10 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 @EqualsAndHashCode(callSuper = true)
+@Accessors(chain = true)
 @Data
 @ApiModel(value="UserModel", description = "")
 public class UserModel extends BaseModel {
@@ -20,6 +22,9 @@ public class UserModel extends BaseModel {
 
     @ApiModelProperty(value = "用户名")
     private String username;
+
+    @ApiModelProperty(value = "头像")
+    private String avatar;
 
     @ApiModelProperty(value = "密码")
     private String password;

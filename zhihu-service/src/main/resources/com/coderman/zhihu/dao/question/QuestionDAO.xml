@@ -293,6 +293,9 @@
   <resultMap id="pageResultMap" type="com.coderman.zhihu.vo.question.QuestionVO" extends="BaseResultMap">
     <result column="user_name" property="username"/>
     <result column="nickname" property="nickname"/>
+    <result column="description" property="description"/>
+    <result column="avatar" property="avatar"/>
+    <result column="gender" property="gender"/>
   </resultMap>
 
   <!-- 分页查询 -->
@@ -309,9 +312,20 @@
       q.create_time,
       q.update_time,
       u.username,
-      u.nickname
+      u.nickname,
+      u.description,
+      u.avatar,
+      u.gender
     FROM
         zhihu_question q
-        LEFT JOIN zhihu_user u ON q.user_id = u.user_id
+    LEFT JOIN zhihu_user u ON q.user_id = u.user_id
+    order by q.create_time desc
   </select>
+
+
+
+
+
+
+
 </mapper>

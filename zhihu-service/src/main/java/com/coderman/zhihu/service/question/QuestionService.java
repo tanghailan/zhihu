@@ -34,4 +34,22 @@ public interface QuestionService {
      * @return
      */
     ResultVO<Void> create(QuestionParamVO questionParamVO);
+
+
+    /**
+     * 关注问题
+     *
+     * @param questionId 问题id
+     * @return
+     */
+    ResultVO<Void> updateFollow(Integer questionId);
+
+
+    /**
+     * 取消关注问题
+     *
+     * @param questionId
+     * @return
+     */
+    ResultVO<Void> updateNotFollow(Integer questionId);
 }

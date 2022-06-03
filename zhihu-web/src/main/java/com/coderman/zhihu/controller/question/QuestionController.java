@@ -62,4 +62,25 @@ public class QuestionController {
     }
 
 
+    @ApiOperation(httpMethod = SwaggerConstant.METHOD_GET, value = "关注问题")
+    @PostMapping(value = "/update/follow")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "questionId", paramType = SwaggerConstant.PARAM_FORM, value = "问题id", dataType = SwaggerConstant.DATA_INT, required = true),
+    })
+    public ResultVO<Void> updateFollow(@RequestParam(value = "questionId") Integer questionId){
+
+        return this.questionService.updateFollow(questionId);
+    }
+
+
+    @ApiOperation(httpMethod = SwaggerConstant.METHOD_GET, value = "取消关注问题")
+    @PostMapping(value = "/update/not/follow")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "questionId", paramType = SwaggerConstant.PARAM_FORM, value = "问题id", dataType = SwaggerConstant.DATA_INT, required = true),
+    })
+    public ResultVO<Void> updateNotFollow(@RequestParam(value = "questionId") Integer questionId){
+
+        return this.questionService.updateNotFollow(questionId);
+    }
+
 }

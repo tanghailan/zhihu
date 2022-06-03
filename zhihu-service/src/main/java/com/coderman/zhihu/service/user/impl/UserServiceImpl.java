@@ -18,7 +18,7 @@ import com.coderman.zhihu.vo.user.AuthUserVO;
 import com.coderman.zhihu.vo.user.LoginCaptchaVO;
 import com.coderman.zhihu.vo.user.LoginParamVO;
 import com.coderman.zhihu.vo.user.RegisterParamVO;
-import com.wf.captcha.SpecCaptcha;
+import com.wf.captcha.ArithmeticCaptcha;
 import io.jsonwebtoken.Claims;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -189,7 +189,7 @@ public class UserServiceImpl implements UserService {
     public ResultVO<LoginCaptchaVO> loginCaptcha(LoginCaptchaVO loginCaptchaVO) {
 
         String captchaToken = loginCaptchaVO.getCaptchaToken();
-        SpecCaptcha specCaptcha = new SpecCaptcha(130, 48, 5);
+        ArithmeticCaptcha specCaptcha = new ArithmeticCaptcha(130, 48, 2);
         String captchaCode = specCaptcha.text();
 
         if (StringUtils.isBlank(captchaToken)) {

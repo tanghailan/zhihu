@@ -52,8 +52,7 @@ public class AuthAspect {
         unCheckPathSet.add("/user/register/send/email");
         // 登入验证码
         unCheckPathSet.add("/user/login/captcha");
-
-        // test
+        // 问题列表
         unCheckPathSet.add("/question/page");
     }
 

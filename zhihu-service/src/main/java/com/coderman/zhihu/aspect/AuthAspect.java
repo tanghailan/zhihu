@@ -15,6 +15,8 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -35,6 +37,7 @@ import java.util.Set;
 @Aspect
 @Component
 @Slf4j
+@Order(value = Ordered.HIGHEST_PRECEDENCE)
 public class AuthAspect {
 
 
@@ -120,17 +123,9 @@ public class AuthAspect {
             return null;
         }
 
-        // 保存用户信息
-        AuthUserVO authUserVO = JSON.parseObject(subject, AuthUserVO.class);
-        AuthUtil.setCurrent(authUserVO);
 
         // 执行目标方法
-        Object proceed = point.proceed();
-
-
-        // 请求会话信息
-        AuthUtil.remove();
-        return proceed;
+        return  point.proceed();
 
     }
 

@@ -34,4 +34,7 @@ public class QuestionVO extends QuestionModel {
 
     @ApiModelProperty(value = "用户性别")
     private String gender;
+
+    @ApiModelProperty(value = "是否关注")
+    private Boolean isFollowed;
 }

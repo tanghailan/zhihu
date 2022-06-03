@@ -5,6 +5,8 @@ import com.coderman.zhihu.model.question.QuestionFollowExample;
 import com.coderman.zhihu.model.question.QuestionFollowModel;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface QuestionFollowDAO extends BaseDAO<QuestionFollowModel, QuestionFollowExample> {
 
     /**
@@ -15,4 +17,13 @@ public interface QuestionFollowDAO extends BaseDAO<QuestionFollowModel, Question
      * @return
      */
     int updateNotFollow(@Param(value = "questionId") Integer questionId,@Param(value = "userId") Integer userId);
+
+    /**
+     * 查询已关注的问题id
+     *
+     * @param questionIdList 问题id集合
+     * @param userId 用户id
+     * @return
+     */
+    List<Integer> selectUserFollowed(@Param(value = "questionIdList") List<Integer> questionIdList,@Param(value = "userId") Integer userId);
 }

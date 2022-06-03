@@ -26,6 +26,8 @@ import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * @author coderman
@@ -136,7 +138,8 @@ public class QuestionServiceImpl implements QuestionService {
             }
         }
 
-
+        // 增加问题的关注人数
+        this.questionDAO.updateFollowCountUp(questionId);
         return ResultUtil.getSuccess();
     }
 
@@ -156,6 +159,8 @@ public class QuestionServiceImpl implements QuestionService {
             throw new BusinessException("取消关注问题失败！");
         }
 
+        // 减少关注人数
+        this.questionDAO.updateFollowCountDown(questionId);
         return ResultUtil.getSuccess();
     }
 
@@ -166,7 +171,48 @@ public class QuestionServiceImpl implements QuestionService {
         PageHelper.startPage(currentPage, pageSize);
         List<QuestionVO> questionList = this.questionDAO.page(queryVO);
 
+        // 问题id集合
+        List<Integer> questionIds = questionList.stream().map(QuestionVO::getQuestionId).collect(Collectors.toList());
+
+        // 如果登入了需要设置一些额外的属性
+        AuthUserVO current = AuthUtil.getCurrent();
+        if (current != null && !CollectionUtils.isEmpty(questionIds)) {
+
+            // 当前用户已关注的问题id集合
+            List<Integer> followedIdList = this.questionFollowDAO.selectUserFollowed(questionIds, current.getUserId());
+
+            for (QuestionVO questionVO : questionList) {
+
+                // 关注状态
+                questionVO.setIsFollowed(followedIdList.contains(questionVO.getQuestionId()));
+            }
+        }
+
 
         return ResultUtil.getSuccessPage(QuestionVO.class, PageUtil.getPageVO(questionList));
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

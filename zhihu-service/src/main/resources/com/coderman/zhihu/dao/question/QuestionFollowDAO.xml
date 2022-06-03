@@ -227,6 +227,16 @@
   </update>
     <update id="updateNotFollow">
        update zhihu_question_follow set follow_status = 0
-       where question_id = #{questionId} user_id = #{userId}
+       where question_id = #{questionId} and user_id = #{userId}
     </update>
+  <select id="selectUserFollowed" resultType="java.lang.Integer">
+    select question_id
+    from zhihu_question_follow
+    where user_id = #{userId}
+    and question_id in
+    <foreach collection="questionIdList" item="item" open="(" close=")" separator=",">
+      #{item}
+    </foreach>
+    and follow_status = 1
+  </select>
 </mapper>

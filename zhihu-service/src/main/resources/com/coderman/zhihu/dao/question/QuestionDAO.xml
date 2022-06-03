@@ -318,9 +318,23 @@
       u.gender
     FROM
         zhihu_question q
-    LEFT JOIN zhihu_user u ON q.user_id = u.user_id
+    left join zhihu_user u on q.user_id = u.user_id
     order by q.create_time desc
   </select>
+
+  <update id="updateFollowCountUp">
+    update zhihu_question
+    set follow_count = follow_count  + 1
+    where question_id = #{questionId}
+  </update>
+
+
+  <update id="updateFollowCountDown">
+    update zhihu_question
+    set follow_count = follow_count  - 1
+    where question_id = #{questionId}
+    and follow_count > 0
+  </update>
 
 
 

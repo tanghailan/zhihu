@@ -15,7 +15,7 @@ import java.util.List;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class CreateParamVO extends QuestionModel {
+public class QuestionParamVO extends QuestionModel {
 
     @ApiModelProperty(value = "话题id")
     private List<Integer> topicIdList;

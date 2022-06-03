@@ -289,11 +289,29 @@
     where question_id = #{questionId,jdbcType=INTEGER}
   </update>
 
+
+  <resultMap id="pageResultMap" type="com.coderman.zhihu.vo.question.QuestionVO" extends="BaseResultMap">
+    <result column="user_name" property="username"/>
+    <result column="nickname" property="nickname"/>
+  </resultMap>
+
   <!-- 分页查询 -->
-  <select id="page" resultType="com.coderman.zhihu.vo.question.QuestionVO">
-     select
-      question_id, question_title, question_content, user_id, is_anonymous, follow_count,
-      view_count, like_count, create_time, update_time
-      from zhihu_question
+  <select id="page" resultMap="pageResultMap">
+    SELECT
+      q.question_id,
+      q.question_title,
+      q.question_content,
+      q.user_id,
+      q.is_anonymous,
+      q.follow_count,
+      q.view_count,
+      q.like_count,
+      q.create_time,
+      q.update_time,
+      u.username,
+      u.nickname
+    FROM
+        zhihu_question q
+        LEFT JOIN zhihu_user u ON q.user_id = u.user_id
   </select>
 </mapper>

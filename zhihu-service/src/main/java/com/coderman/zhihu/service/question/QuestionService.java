@@ -2,7 +2,7 @@ package com.coderman.zhihu.service.question;
 
 import com.coderman.api.vo.PageVO;
 import com.coderman.api.vo.ResultVO;
-import com.coderman.zhihu.vo.question.CreateParamVO;
+import com.coderman.zhihu.vo.question.QuestionParamVO;
 import com.coderman.zhihu.vo.question.QuestionQueryVO;
 import com.coderman.zhihu.vo.question.QuestionVO;
 
@@ -30,8 +30,8 @@ public interface QuestionService {
 
     /**
      * 创建问题
-     * @param createParamVO 问题参数
+     * @param questionParamVO 问题参数
      * @return
      */
-    ResultVO<Void> create(CreateParamVO createParamVO);
+    ResultVO<Void> create(QuestionParamVO questionParamVO);
 }

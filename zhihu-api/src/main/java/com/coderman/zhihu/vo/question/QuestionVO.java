@@ -1,7 +1,7 @@
 package com.coderman.zhihu.vo.question;
 
-import com.coderman.api.model.BaseModel;
 import com.coderman.zhihu.model.question.QuestionModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -15,5 +15,12 @@ import lombok.EqualsAndHashCode;
 @Data
 public class QuestionVO extends QuestionModel {
 
+
+    @ApiModelProperty(value = "创建人账号")
+    private String username;
+
+
+    @ApiModelProperty(value = "创建人昵称")
+    private String nickname;
 
 }

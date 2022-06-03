@@ -8,11 +8,10 @@ import com.coderman.zhihu.model.question.QuestionModel;
 import com.coderman.zhihu.service.question.QuestionService;
 import com.coderman.zhihu.util.AuthUtil;
 import com.coderman.zhihu.util.PageUtil;
-import com.coderman.zhihu.vo.question.CreateParamVO;
+import com.coderman.zhihu.vo.question.QuestionParamVO;
 import com.coderman.zhihu.vo.question.QuestionQueryVO;
 import com.coderman.zhihu.vo.question.QuestionVO;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -34,12 +33,12 @@ public class QuestionServiceImpl implements QuestionService {
 
 
     @Override
-    public ResultVO<Void> create(CreateParamVO createParamVO) {
+    public ResultVO<Void> create(QuestionParamVO questionParamVO) {
 
-        String questionTitle = createParamVO.getQuestionTitle();
-        String questionContent = createParamVO.getQuestionContent();
-        List<Integer> topicIdList = createParamVO.getTopicIdList();
-        Boolean isAnonymous = createParamVO.getIsAnonymous();
+        String questionTitle = questionParamVO.getQuestionTitle();
+        String questionContent = questionParamVO.getQuestionContent();
+        List<Integer> topicIdList = questionParamVO.getTopicIdList();
+        Boolean isAnonymous = questionParamVO.getIsAnonymous();
 
         if (StringUtils.isBlank(questionTitle) || StringUtils.length(questionTitle) > 21) {
             return ResultUtil.getWarn("问题标题不能为空，并且不不能超过20个字符");

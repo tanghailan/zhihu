@@ -6,7 +6,7 @@ import com.coderman.swagger.annotation.ApiReturnParam;
 import com.coderman.swagger.annotation.ApiReturnParams;
 import com.coderman.swagger.constant.SwaggerConstant;
 import com.coderman.zhihu.service.question.QuestionService;
-import com.coderman.zhihu.vo.question.CreateParamVO;
+import com.coderman.zhihu.vo.question.QuestionParamVO;
 import com.coderman.zhihu.vo.question.QuestionQueryVO;
 import com.coderman.zhihu.vo.question.QuestionVO;
 import io.swagger.annotations.ApiImplicitParam;
@@ -39,9 +39,9 @@ public class QuestionController {
             @ApiImplicitParam(name = "isAnonymous", paramType = SwaggerConstant.PARAM_BODY, dataType = SwaggerConstant.DATA_STRING, value = "问题概述"),
             @ApiImplicitParam(name = "topicIdList", paramType = SwaggerConstant.PARAM_BODY, dataType = SwaggerConstant.DATA_OBJECT, value = "话题id")
     })
-    public ResultVO<Void> create(@RequestBody @ApiIgnore CreateParamVO createParamVO) {
+    public ResultVO<Void> create(@RequestBody @ApiIgnore QuestionParamVO questionParamVO) {
 
-        return this.questionService.create(createParamVO);
+        return this.questionService.create(questionParamVO);
     }
 
 
@@ -60,4 +60,6 @@ public class QuestionController {
                                                    @RequestParam(value = "pageSize", defaultValue = "15") Integer pageSize, QuestionQueryVO queryVO) {
         return this.questionService.page(currentPage, pageSize, queryVO);
     }
+
+
 }

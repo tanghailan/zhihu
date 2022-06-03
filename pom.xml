@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.coderman</groupId>
+    <artifactId>zhihu</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.0</version>
+
+    <parent>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <groupId>org.springframework.boot</groupId>
+        <version>2.2.4.RELEASE</version>
+    </parent>
+
+    <modules>
+        <module>zhihu-api</module>
+        <module>zhihu-service</module>
+        <module>zhihu-web</module>
+    </modules>
+
+    <properties>
+        <base.version>1.0.0</base.version>
+        <zhihu.version>1.0.0</zhihu.version>
+        <jwt.version>0.9.1</jwt.version>
+        <easy.captcha.version>1.6.2</easy.captcha.version>
+    </properties>
+
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.coderman</groupId>
+                <artifactId>zhihu-api</artifactId>
+                <version>${zhihu.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.coderman</groupId>
+                <artifactId>zhihu-service</artifactId>
+                <version>${zhihu.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.coderman</groupId>
+                <artifactId>base-api</artifactId>
+                <version>${base.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.coderman</groupId>
+                <artifactId>base-service</artifactId>
+                <version>${base.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jwt.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.whvcse</groupId>
+                <artifactId>easy-captcha</artifactId>
+                <version>${easy.captcha.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

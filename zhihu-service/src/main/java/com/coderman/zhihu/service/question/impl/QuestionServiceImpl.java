@@ -37,7 +37,7 @@ public class QuestionServiceImpl implements QuestionService {
     public ResultVO<Void> create(CreateParamVO createParamVO) {
 
         String questionTitle = createParamVO.getQuestionTitle();
-        String questionDesc = createParamVO.getQuestionDesc();
+        String questionContent = createParamVO.getQuestionContent();
         List<Integer> topicIdList = createParamVO.getTopicIdList();
         Boolean isAnonymous = createParamVO.getIsAnonymous();
 
@@ -45,8 +45,8 @@ public class QuestionServiceImpl implements QuestionService {
             return ResultUtil.getWarn("问题标题不能为空，并且不不能超过20个字符");
         }
 
-        if (StringUtils.isBlank(questionDesc) || StringUtils.length(questionDesc) > 5001) {
-            return ResultUtil.getWarn("问题描述不能为空，并且不不能超过5000个字符");
+        if (StringUtils.isBlank(questionContent) || StringUtils.length(questionContent) > 5001) {
+            return ResultUtil.getWarn("问题内容不能为空，并且不不能超过5000个字符");
         }
 
         if (CollectionUtils.isEmpty(topicIdList)) {
@@ -61,10 +61,11 @@ public class QuestionServiceImpl implements QuestionService {
         QuestionModel createModel = new QuestionModel();
         createModel.setCreateTime(new Date());
         createModel.setQuestionTitle(questionTitle);
-        createModel.setQuestionDesc(questionDesc);
+        createModel.setQuestionContent(questionContent);
         createModel.setIsAnonymous(isAnonymous);
         createModel.setFollowCount(0);
         createModel.setViewCount(0);
+        createModel.setLikeCount(0);
         createModel.setUserId(AuthUtil.getCurrent().getUserId());
 
         this.questionDAO.insertSelective(createModel);

@@ -20,8 +20,8 @@ public class QuestionModel extends BaseModel {
     @ApiModelProperty(value = "问题标题")
     private String questionTitle;
 
-    @ApiModelProperty(value = "问题概述")
-    private String questionDesc;
+    @ApiModelProperty(value = "问题内容")
+    private String questionContent;
 
     @ApiModelProperty(value = "用户id")
     private Integer userId;

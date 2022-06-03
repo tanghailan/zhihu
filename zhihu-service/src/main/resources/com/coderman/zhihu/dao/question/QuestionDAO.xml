@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.coderman.zhihu.model.question.QuestionModel">
     <id column="question_id" jdbcType="INTEGER" property="questionId" />
     <result column="question_title" jdbcType="VARCHAR" property="questionTitle" />
-    <result column="question_desc" jdbcType="VARCHAR" property="questionDesc" />
+    <result column="question_content" jdbcType="VARCHAR" property="questionContent" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="is_anonymous" jdbcType="BIT" property="isAnonymous" />
     <result column="follow_count" jdbcType="INTEGER" property="followCount" />
@@ -72,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    question_id, question_title, question_desc, user_id, is_anonymous, follow_count, 
+    question_id, question_title, question_content, user_id, is_anonymous, follow_count, 
     view_count, like_count, create_time, update_time
   </sql>
   <select id="selectByExample" parameterType="com.coderman.zhihu.model.question.QuestionExample" resultMap="BaseResultMap">
@@ -106,11 +106,11 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.coderman.zhihu.model.question.QuestionModel">
-    insert into zhihu_question (question_id, question_title, question_desc, 
+    insert into zhihu_question (question_id, question_title, question_content, 
       user_id, is_anonymous, follow_count, 
       view_count, like_count, create_time, 
       update_time)
-    values (#{questionId,jdbcType=INTEGER}, #{questionTitle,jdbcType=VARCHAR}, #{questionDesc,jdbcType=VARCHAR}, 
+    values (#{questionId,jdbcType=INTEGER}, #{questionTitle,jdbcType=VARCHAR}, #{questionContent,jdbcType=VARCHAR}, 
       #{userId,jdbcType=INTEGER}, #{isAnonymous,jdbcType=BIT}, #{followCount,jdbcType=INTEGER}, 
       #{viewCount,jdbcType=INTEGER}, #{likeCount,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP})
@@ -124,8 +124,8 @@
       <if test="questionTitle != null">
         question_title,
       </if>
-      <if test="questionDesc != null">
-        question_desc,
+      <if test="questionContent != null">
+        question_content,
       </if>
       <if test="userId != null">
         user_id,
@@ -156,8 +156,8 @@
       <if test="questionTitle != null">
         #{questionTitle,jdbcType=VARCHAR},
       </if>
-      <if test="questionDesc != null">
-        #{questionDesc,jdbcType=VARCHAR},
+      <if test="questionContent != null">
+        #{questionContent,jdbcType=VARCHAR},
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
@@ -197,8 +197,8 @@
       <if test="record.questionTitle != null">
         question_title = #{record.questionTitle,jdbcType=VARCHAR},
       </if>
-      <if test="record.questionDesc != null">
-        question_desc = #{record.questionDesc,jdbcType=VARCHAR},
+      <if test="record.questionContent != null">
+        question_content = #{record.questionContent,jdbcType=VARCHAR},
       </if>
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
@@ -230,7 +230,7 @@
     update zhihu_question
     set question_id = #{record.questionId,jdbcType=INTEGER},
       question_title = #{record.questionTitle,jdbcType=VARCHAR},
-      question_desc = #{record.questionDesc,jdbcType=VARCHAR},
+      question_content = #{record.questionContent,jdbcType=VARCHAR},
       user_id = #{record.userId,jdbcType=INTEGER},
       is_anonymous = #{record.isAnonymous,jdbcType=BIT},
       follow_count = #{record.followCount,jdbcType=INTEGER},
@@ -248,8 +248,8 @@
       <if test="questionTitle != null">
         question_title = #{questionTitle,jdbcType=VARCHAR},
       </if>
-      <if test="questionDesc != null">
-        question_desc = #{questionDesc,jdbcType=VARCHAR},
+      <if test="questionContent != null">
+        question_content = #{questionContent,jdbcType=VARCHAR},
       </if>
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
@@ -278,7 +278,7 @@
   <update id="updateByPrimaryKey" parameterType="com.coderman.zhihu.model.question.QuestionModel">
     update zhihu_question
     set question_title = #{questionTitle,jdbcType=VARCHAR},
-      question_desc = #{questionDesc,jdbcType=VARCHAR},
+      question_content = #{questionContent,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=INTEGER},
       is_anonymous = #{isAnonymous,jdbcType=BIT},
       follow_count = #{followCount,jdbcType=INTEGER},
@@ -292,8 +292,8 @@
   <!-- 分页查询 -->
   <select id="page" resultType="com.coderman.zhihu.vo.question.QuestionVO">
      select
-      question_id, question_title, question_desc, user_id, is_anonymous, follow_count,
-    view_count, like_count, create_time, update_time
-    from zhihu_question
+      question_id, question_title, question_content, user_id, is_anonymous, follow_count,
+      view_count, like_count, create_time, update_time
+      from zhihu_question
   </select>
 </mapper>

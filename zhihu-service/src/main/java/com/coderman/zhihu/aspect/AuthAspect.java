@@ -8,7 +8,6 @@ import com.coderman.zhihu.util.JwtUtil;
 import com.coderman.zhihu.vo.user.AuthUserVO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -53,6 +52,9 @@ public class AuthAspect {
         unCheckPathSet.add("/user/register/send/email");
         // 登入验证码
         unCheckPathSet.add("/user/login/captcha");
+
+        // test
+        unCheckPathSet.add("/question/page");
     }
 
 
@@ -106,8 +108,8 @@ public class AuthAspect {
             log.error("token令牌过期!");
             response.setStatus(ResultConstant.RESULT_CODE_401);
             return null;
-        }catch (Exception exception){
-            log.error("解析错误:{}",exception.getMessage());
+        } catch (Exception exception) {
+            log.error("解析错误:{}", exception.getMessage());
             response.setStatus(ResultConstant.RESULT_CODE_401);
             return null;
         }

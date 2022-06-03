@@ -288,4 +288,12 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where question_id = #{questionId,jdbcType=INTEGER}
   </update>
+
+  <!-- 分页查询 -->
+  <select id="page" resultType="com.coderman.zhihu.vo.question.QuestionVO">
+     select
+      question_id, question_title, question_desc, user_id, is_anonymous, follow_count,
+    view_count, like_count, create_time, update_time
+    from zhihu_question
+  </select>
 </mapper>

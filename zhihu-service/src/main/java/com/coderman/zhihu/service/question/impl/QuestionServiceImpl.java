@@ -1,12 +1,18 @@
 package com.coderman.zhihu.service.question.impl;
 
 import com.coderman.api.util.ResultUtil;
+import com.coderman.api.vo.PageVO;
 import com.coderman.api.vo.ResultVO;
 import com.coderman.zhihu.dao.question.QuestionDAO;
 import com.coderman.zhihu.model.question.QuestionModel;
 import com.coderman.zhihu.service.question.QuestionService;
 import com.coderman.zhihu.util.AuthUtil;
+import com.coderman.zhihu.util.PageUtil;
 import com.coderman.zhihu.vo.question.CreateParamVO;
+import com.coderman.zhihu.vo.question.QuestionQueryVO;
+import com.coderman.zhihu.vo.question.QuestionVO;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -67,5 +73,16 @@ public class QuestionServiceImpl implements QuestionService {
 
 
         return ResultUtil.getSuccess();
+    }
+
+    @Override
+    public ResultVO<PageVO<List<QuestionVO>>> page(Integer currentPage, Integer pageSize, QuestionQueryVO queryVO) {
+
+        // 分页
+        PageHelper.startPage(currentPage, pageSize);
+        List<QuestionVO> questionList = this.questionDAO.page(queryVO);
+
+
+        return ResultUtil.getSuccessPage(QuestionVO.class, PageUtil.getPageVO(questionList));
     }
 }

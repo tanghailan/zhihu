@@ -1,7 +1,12 @@
 package com.coderman.zhihu.service.question;
 
+import com.coderman.api.vo.PageVO;
 import com.coderman.api.vo.ResultVO;
 import com.coderman.zhihu.vo.question.CreateParamVO;
+import com.coderman.zhihu.vo.question.QuestionQueryVO;
+import com.coderman.zhihu.vo.question.QuestionVO;
+
+import java.util.List;
 
 /**
  * @author coderman
@@ -9,6 +14,19 @@ import com.coderman.zhihu.vo.question.CreateParamVO;
  * @date 2022/5/2818:24
  */
 public interface QuestionService {
+
+
+
+    /**
+     * 查询列表
+     *
+     * @param currentPage 当前页面
+     * @param pageSize 每页显示条数
+     * @param queryVO 查询对象
+     * @return
+     */
+    ResultVO<PageVO<List<QuestionVO>>> page(Integer currentPage, Integer pageSize, QuestionQueryVO queryVO);
+
 
     /**
      * 创建问题

@@ -70,4 +70,10 @@ public class TopicServiceImpl implements TopicService {
     }
 
 
+    @Override
+    public ResultVO<List<TopicVO>> search(String keyword) {
+        return this.topicDAO.selectByTopicName(keyword);
+    }
+
+
 }

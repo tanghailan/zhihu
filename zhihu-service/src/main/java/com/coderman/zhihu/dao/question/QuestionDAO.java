@@ -34,4 +34,13 @@ public interface QuestionDAO extends BaseDAO<QuestionModel, QuestionExample> {
      * @param questionId 问题id
      */
     void updateFollowCountDown(@Param(value = "questionId") Integer questionId);
+
+
+    /**
+     * 查询已关注问题列表
+     * @param userId
+     * @param queryVO
+     * @return
+     */
+    List<QuestionVO> selectFollowedPage(@Param(value = "userId") Integer userId,@Param(value = "queryVO") QuestionQueryVO queryVO);
 }

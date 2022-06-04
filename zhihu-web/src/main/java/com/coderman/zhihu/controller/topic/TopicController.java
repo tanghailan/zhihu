@@ -38,9 +38,25 @@ public class TopicController {
             @ApiImplicitParam(name = "topicLogo", paramType = SwaggerConstant.PARAM_BODY, dataType = SwaggerConstant.DATA_STRING, value = "话题封面"),
             @ApiImplicitParam(name = "topicDesc", paramType = SwaggerConstant.PARAM_BODY, dataType = SwaggerConstant.DATA_STRING, value = "话题简述"),
     })
+    @ApiReturnParams({
+            @ApiReturnParam(name = "ResultVO", value = {"code", "msg", "result"})
+    })
     public ResultVO<Void> create(@RequestBody @ApiIgnore TopicParamVO topicParamVO) {
 
         return this.topicService.create(topicParamVO);
+    }
+
+
+    @ApiOperation(httpMethod = SwaggerConstant.METHOD_GET,value = "搜索话题")
+    @GetMapping(value = "/search")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "keyword",paramType = SwaggerConstant.PARAM_QUERY,dataType = SwaggerConstant.DATA_STRING,value = "关键字")
+    })
+    @ApiReturnParams({
+            @ApiReturnParam(name = "ResultVO", value = {"code", "msg", "result"})
+    })
+    public ResultVO<List<TopicVO>> search(String keyword){
+        return this.topicService.search(keyword);
     }
 
 

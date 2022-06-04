@@ -7,6 +7,7 @@ import com.coderman.api.vo.ResultVO;
 import com.coderman.zhihu.constant.UserConstant;
 import com.coderman.zhihu.dao.question.QuestionDAO;
 import com.coderman.zhihu.dao.question.QuestionFollowDAO;
+import com.coderman.zhihu.dao.question.QuestionTopicDAO;
 import com.coderman.zhihu.model.question.QuestionFollowExample;
 import com.coderman.zhihu.model.question.QuestionFollowModel;
 import com.coderman.zhihu.model.question.QuestionModel;
@@ -18,6 +19,7 @@ import com.coderman.zhihu.vo.question.QuestionQueryVO;
 import com.coderman.zhihu.vo.question.QuestionVO;
 import com.coderman.zhihu.vo.user.AuthUserVO;
 import com.github.pagehelper.PageHelper;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -44,6 +46,9 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Resource
     private QuestionFollowDAO questionFollowDAO;
+
+    @Resource
+    private QuestionTopicDAO questionTopicDAO;
 
 
     @Override
@@ -84,6 +89,10 @@ public class QuestionServiceImpl implements QuestionService {
         this.questionDAO.insertSelective(createModel);
 
         // 插入问题话题
+        Lists.partition(topicIdList, 10).forEach(subList -> {
+            this.questionTopicDAO.insertBatch(createModel.getQuestionId(), subList);
+        });
+
 
 
         return ResultUtil.getSuccess();
@@ -181,6 +190,20 @@ public class QuestionServiceImpl implements QuestionService {
         // 减少关注人数
         this.questionDAO.updateFollowCountDown(questionId);
         return ResultUtil.getSuccess();
+    }
+
+    @Override
+    public ResultVO<PageVO<List<QuestionVO>>> selectFollowedPage(Integer currentPage, Integer pageSize, QuestionQueryVO queryVO) {
+
+
+        AuthUserVO current = AuthUtil.getCurrent();
+        if(current == null){
+            return ResultUtil.getWarn("请先登入");
+        }
+
+        Integer userId = current.getUserId();
+        List<QuestionVO> questionList = this.questionDAO.selectFollowedPage(userId,queryVO);
+        return ResultUtil.getSuccessPage(QuestionVO.class,PageUtil.getPageVO(questionList));
     }
 
     @Override

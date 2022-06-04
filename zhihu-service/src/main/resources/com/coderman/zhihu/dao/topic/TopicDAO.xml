@@ -245,4 +245,10 @@
     <include refid="Base_Column_List"></include>
     from zhihu_topic
   </select>
+    <select id="selectByTopicName" resultType="java.util.List">
+      select
+      <include refid="Base_Column_List"></include>
+      from zhihu_topic
+      where topic_name like concat('%',#{topicName},'%')
+    </select>
 </mapper>

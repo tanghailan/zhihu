@@ -322,6 +322,32 @@
     order by q.create_time desc
   </select>
 
+
+  <!-- 分页查询 -->
+  <select id="selectFollowedPage" resultMap="pageResultMap">
+    SELECT
+      q.question_id,
+      q.question_title,
+      q.question_content,
+      q.user_id,
+      q.is_anonymous,
+      q.follow_count,
+      q.view_count,
+      q.like_count,
+      q.create_time,
+      q.update_time,
+      u.username,
+      u.nickname,
+      u.description,
+      u.avatar,
+      u.gender
+    FROM
+        zhihu_question q
+    left join zhihu_user u on q.user_id = u.user_id
+    where q.user_id = #{userId}
+    order by q.create_time desc
+  </select>
+
   <update id="updateFollowCountUp">
     update zhihu_question
     set follow_count = follow_count  + 1

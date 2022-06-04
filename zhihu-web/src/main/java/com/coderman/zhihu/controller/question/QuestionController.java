@@ -61,6 +61,21 @@ public class QuestionController {
     }
 
 
+    @ApiOperation(httpMethod = SwaggerConstant.METHOD_GET,value = "我的关注问题列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "currentPage", paramType = SwaggerConstant.PARAM_FORM, value = "当前页", dataType = SwaggerConstant.DATA_INT, required = true),
+            @ApiImplicitParam(name = "pageSize", paramType = SwaggerConstant.PARAM_FORM, value = "每页大小", dataType = SwaggerConstant.DATA_INT, required = true),
+    })
+    @GetMapping(value = "/followed/page")
+    @ApiReturnParams({
+            @ApiReturnParam(name = "ResultVO", value = {"code", "msg", "result"}),
+    })
+    public ResultVO<PageVO<List<QuestionVO>>> selectFollowedPage(@RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
+                                                                 @RequestParam(value = "pageSize", defaultValue = "15") Integer pageSize, QuestionQueryVO queryVO){
+      return this.questionService.selectFollowedPage(currentPage,pageSize,queryVO);
+    }
+
+
     @ApiOperation(httpMethod = SwaggerConstant.METHOD_GET, value = "关注问题")
     @PostMapping(value = "/update/follow")
     @ApiImplicitParams({

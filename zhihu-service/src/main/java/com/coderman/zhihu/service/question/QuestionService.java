@@ -52,4 +52,15 @@ public interface QuestionService {
      * @return
      */
     ResultVO<Void> updateNotFollow(Integer questionId);
+
+
+    /**
+     * 查询已关注问题列表
+     *
+     * @param currentPage 当前页面
+     * @param pageSize 每页显示条数
+     * @param queryVO 查询对象
+     * @return
+     */
+    ResultVO<PageVO<List<QuestionVO>>> selectFollowedPage(Integer currentPage, Integer pageSize, QuestionQueryVO queryVO);
 }

@@ -208,4 +208,11 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where question_topic_id = #{questionTopicId,jdbcType=INTEGER}
   </update>
+  <insert id="insertBatch">
+     insert into zhihu_question_topic (question_id, topic_id)
+    values
+    <foreach collection="topicIdList" item="topicId" separator=",">
+      (#{questionId,jdbcType=INTEGER}, #{topicId,jdbcType=INTEGER})
+    </foreach>
+  </insert>
 </mapper>

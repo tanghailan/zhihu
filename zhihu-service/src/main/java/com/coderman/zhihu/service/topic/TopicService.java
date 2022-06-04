@@ -31,4 +31,13 @@ public interface TopicService {
      * @return
      */
     ResultVO<PageVO<List<TopicVO>>> page(Integer currentPage, Integer pageSize);
+
+
+    /**
+     * 话题搜索
+     *
+     * @param keyword 关键字
+     * @return
+     */
+    ResultVO<List<TopicVO>> search(String keyword);
 }

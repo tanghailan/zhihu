@@ -84,6 +84,8 @@ public class UserController {
         return this.userService.registerSendEmail(email);
     }
 
+
+
     @ApiOperation(httpMethod = SwaggerConstant.METHOD_POST, value = "登入验证码")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "captchaToken", paramType = SwaggerConstant.PARAM_QUERY, dataType = SwaggerConstant.DATA_STRING, value = "邮箱"),

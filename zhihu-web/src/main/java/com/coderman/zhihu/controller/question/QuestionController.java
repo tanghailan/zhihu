@@ -54,7 +54,6 @@ public class QuestionController {
     @ApiReturnParams({
             @ApiReturnParam(name = "ResultVO", value = {"code", "msg", "result"}),
             @ApiReturnParam(name = "PageVO", value = {"dataList", "total"}),
-            @ApiReturnParam(name = "ResourceVO", value = {"resourceName", "resourceUrl", "resourceDomain", "createTime", "updateTime", "methodType"})
     })
     public ResultVO<PageVO<List<QuestionVO>>> page(@RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
                                                    @RequestParam(value = "pageSize", defaultValue = "15") Integer pageSize, QuestionQueryVO queryVO) {

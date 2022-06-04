@@ -1,7 +1,11 @@
 package com.coderman.zhihu.service.topic;
 
+import com.coderman.api.vo.PageVO;
 import com.coderman.api.vo.ResultVO;
 import com.coderman.zhihu.vo.topic.TopicParamVO;
+import com.coderman.zhihu.vo.topic.TopicVO;
+
+import java.util.List;
 
 /**
  * @author coderman
@@ -17,4 +21,14 @@ public interface TopicService {
      * @return
      */
     ResultVO<Void> create(TopicParamVO topicParamVO);
+
+
+    /**
+     * 话题分页
+     *
+     * @param currentPage
+     * @param pageSize
+     * @return
+     */
+    ResultVO<PageVO<List<TopicVO>>> page(Integer currentPage, Integer pageSize);
 }

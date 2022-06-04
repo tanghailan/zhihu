@@ -1,17 +1,22 @@
 package com.coderman.zhihu.service.topic.impl;
 
 import com.coderman.api.util.ResultUtil;
+import com.coderman.api.vo.PageVO;
 import com.coderman.api.vo.ResultVO;
 import com.coderman.zhihu.dao.topic.TopicDAO;
 import com.coderman.zhihu.model.topic.TopicModel;
 import com.coderman.zhihu.service.topic.TopicService;
 import com.coderman.zhihu.util.AuthUtil;
+import com.coderman.zhihu.util.PageUtil;
 import com.coderman.zhihu.vo.topic.TopicParamVO;
+import com.coderman.zhihu.vo.topic.TopicVO;
+import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author coderman
@@ -56,6 +61,13 @@ public class TopicServiceImpl implements TopicService {
         return ResultUtil.getSuccess();
     }
 
+    @Override
+    public ResultVO<PageVO<List<TopicVO>>> page(Integer currentPage, Integer pageSize) {
+
+        PageHelper.startPage(currentPage, pageSize);
+        List<TopicVO> topicList = this.topicDAO.page();
+        return ResultUtil.getSuccessPage(TopicVO.class, PageUtil.getPageVO(topicList));
+    }
 
 
 }

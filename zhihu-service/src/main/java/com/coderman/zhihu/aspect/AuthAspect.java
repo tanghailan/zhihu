@@ -57,6 +57,8 @@ public class AuthAspect {
         unCheckPathSet.add("/user/login/captcha");
         // 问题列表
         unCheckPathSet.add("/question/page");
+        // 话题列表
+        unCheckPathSet.add("/topic/page");
     }
 
 

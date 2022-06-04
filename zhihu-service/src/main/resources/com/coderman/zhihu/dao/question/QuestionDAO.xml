@@ -291,7 +291,7 @@
 
 
   <resultMap id="pageResultMap" type="com.coderman.zhihu.vo.question.QuestionVO" extends="BaseResultMap">
-    <result column="user_name" property="username"/>
+    <result column="username" property="username"/>
     <result column="nickname" property="nickname"/>
     <result column="description" property="description"/>
     <result column="avatar" property="avatar"/>

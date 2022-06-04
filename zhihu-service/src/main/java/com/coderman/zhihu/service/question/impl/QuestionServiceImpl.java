@@ -4,6 +4,7 @@ import com.coderman.api.exception.BusinessException;
 import com.coderman.api.util.ResultUtil;
 import com.coderman.api.vo.PageVO;
 import com.coderman.api.vo.ResultVO;
+import com.coderman.zhihu.constant.UserConstant;
 import com.coderman.zhihu.dao.question.QuestionDAO;
 import com.coderman.zhihu.dao.question.QuestionFollowDAO;
 import com.coderman.zhihu.model.question.QuestionFollowExample;
@@ -151,9 +152,27 @@ public class QuestionServiceImpl implements QuestionService {
             return ResultUtil.getFail("取消关注的问题不存在!");
         }
 
+        AuthUserVO current = AuthUtil.getCurrent();
+
+        // 校验一下关注状态
+        QuestionFollowExample e = new QuestionFollowExample();
+        e.createCriteria().andQuestionIdEqualTo(questionId).andUserIdEqualTo(current.getUserId());
+        Optional<QuestionFollowModel> existOp = this.questionFollowDAO.selectByExample(e).stream().findFirst();
+
+
+        if (!existOp.isPresent()) {
+            return ResultUtil.getWarn("未关注不能取消关注");
+        }
+
+
+        QuestionFollowModel followModel = existOp.get();
+        if (BooleanUtils.isNotTrue(followModel.getFollowStatus())) {
+            return ResultUtil.getWarn("只有已关注的问题才能取消关注");
+        }
+
 
         // 更新关注状态为false
-        int count = this.questionFollowDAO.updateNotFollow(questionId, AuthUtil.getCurrent().getUserId());
+        int count = this.questionFollowDAO.updateNotFollow(questionId, current.getUserId());
         if (count <= 0) {
 
             throw new BusinessException("取消关注问题失败！");
@@ -171,25 +190,60 @@ public class QuestionServiceImpl implements QuestionService {
         PageHelper.startPage(currentPage, pageSize);
         List<QuestionVO> questionList = this.questionDAO.page(queryVO);
 
+        // 匿名问题清除用户信息
+        this.dealWithAnonymous(questionList);
+
+        // 其他属性
+        this.loginStatusSetField(questionList);
+        return ResultUtil.getSuccessPage(QuestionVO.class, PageUtil.getPageVO(questionList));
+    }
+
+
+    /**
+     * 匿名问题处理
+     *
+     * @param questionList
+     */
+    private void dealWithAnonymous(List<QuestionVO> questionList) {
+
+        questionList.stream().filter(e -> BooleanUtils.isTrue(e.getIsAnonymous()))
+                .collect(Collectors.toList())
+                .forEach(anonymousQuestion -> {
+                    anonymousQuestion.setUserId(UserConstant.USER_ANONYMOUS_ID);
+                    anonymousQuestion.setUsername(UserConstant.USER_ANONYMOUS_USERNAME);
+                    anonymousQuestion.setNickname(UserConstant.USER_ANONYMOUS_NICKNAME);
+                    anonymousQuestion.setDescription(UserConstant.USER_ANONYMOUS_DESCRIPTION);
+                    anonymousQuestion.setAvatar(UserConstant.USER_ANONYMOUS_AVATAR);
+                });
+    }
+
+
+    /**
+     * 用户如果登入需要设置一些额外的属性
+     *
+     * @param questionList 问题对象
+     */
+    private void loginStatusSetField(List<QuestionVO> questionList) {
+
         // 问题id集合
         List<Integer> questionIds = questionList.stream().map(QuestionVO::getQuestionId).collect(Collectors.toList());
-
-        // 如果登入了需要设置一些额外的属性
-        AuthUserVO current = AuthUtil.getCurrent();
-        if (current != null && !CollectionUtils.isEmpty(questionIds)) {
-
-            // 当前用户已关注的问题id集合
-            List<Integer> followedIdList = this.questionFollowDAO.selectUserFollowed(questionIds, current.getUserId());
-
-            for (QuestionVO questionVO : questionList) {
-
-                // 关注状态
-                questionVO.setIsFollowed(followedIdList.contains(questionVO.getQuestionId()));
-            }
+        if (CollectionUtils.isEmpty(questionIds)) {
+            return;
         }
 
+        AuthUserVO current = AuthUtil.getCurrent();
+        if (current == null) {
+            return;
+        }
 
-        return ResultUtil.getSuccessPage(QuestionVO.class, PageUtil.getPageVO(questionList));
+        // 当前用户已关注的问题id集合
+        List<Integer> followedIdList = this.questionFollowDAO.selectUserFollowed(questionIds, current.getUserId());
+
+        for (QuestionVO questionVO : questionList) {
+
+            // 关注状态
+            questionVO.setIsFollowed(followedIdList.contains(questionVO.getQuestionId()));
+        }
     }
 }
 

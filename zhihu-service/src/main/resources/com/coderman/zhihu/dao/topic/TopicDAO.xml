@@ -240,4 +240,9 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where topic_id = #{topicId,jdbcType=INTEGER}
   </update>
+  <select id="page" resultType="com.coderman.zhihu.vo.topic.TopicVO">
+    select
+    <include refid="Base_Column_List"></include>
+    from zhihu_topic
+  </select>
 </mapper>

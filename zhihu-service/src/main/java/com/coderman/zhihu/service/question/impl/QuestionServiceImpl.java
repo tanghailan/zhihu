@@ -4,6 +4,7 @@ import com.coderman.api.exception.BusinessException;
 import com.coderman.api.util.ResultUtil;
 import com.coderman.api.vo.PageVO;
 import com.coderman.api.vo.ResultVO;
+import com.coderman.zhihu.constant.NotifyConstant;
 import com.coderman.zhihu.constant.UserConstant;
 import com.coderman.zhihu.dao.question.QuestionDAO;
 import com.coderman.zhihu.dao.question.QuestionFollowDAO;
@@ -11,6 +12,7 @@ import com.coderman.zhihu.dao.question.QuestionTopicDAO;
 import com.coderman.zhihu.model.question.QuestionFollowExample;
 import com.coderman.zhihu.model.question.QuestionFollowModel;
 import com.coderman.zhihu.model.question.QuestionModel;
+import com.coderman.zhihu.service.notify.NotifyMsgService;
 import com.coderman.zhihu.service.question.QuestionService;
 import com.coderman.zhihu.util.AuthUtil;
 import com.coderman.zhihu.util.PageUtil;
@@ -29,7 +31,6 @@ import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -49,6 +50,10 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Resource
     private QuestionTopicDAO questionTopicDAO;
+
+
+    @Resource
+    private NotifyMsgService notifyMsgService;
 
 
     @Override
@@ -115,6 +120,8 @@ public class QuestionServiceImpl implements QuestionService {
         e.createCriteria().andQuestionIdEqualTo(questionId).andUserIdEqualTo(current.getUserId());
         Optional<QuestionFollowModel> existOp = this.questionFollowDAO.selectByExample(e).stream().findFirst();
 
+        // 是否发送消息
+        boolean needNotify = false;
 
         // 重复关注
         if (existOp.isPresent() && BooleanUtils.isTrue(existOp.get().getFollowStatus())) {
@@ -146,10 +153,24 @@ public class QuestionServiceImpl implements QuestionService {
             if (count <= 0) {
                 throw new BusinessException("关注问题失败!");
             }
+
+            // 只有他人关注时需要通知
+            if(!current.getUserId().equals(questionModel.getUserId())){
+                needNotify = true;
+            }
         }
 
         // 增加问题的关注人数
         this.questionDAO.updateFollowCountUp(questionId);
+
+
+        // 发送关注问题站内消息
+        if (needNotify) {
+            String msg = String.format(NotifyConstant.NOTIFY_FOLLOW_QUESTION_MSG, current.getNickname(), questionModel.getQuestionTitle());
+            this.notifyMsgService.insertNotifyMsg(current.getUserId(), questionModel.getUserId(), NotifyConstant.NOTIFY_FOLLOW_QUESTION_TYPE, msg, questionId);
+        }
+
+
         return ResultUtil.getSuccess();
     }
 

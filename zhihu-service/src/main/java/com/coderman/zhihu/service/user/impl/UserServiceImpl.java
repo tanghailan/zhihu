@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
         // 签发jwt
         AuthUserVO authUser = new AuthUserVO();
         authUser.setUserId(dbUser.getUserId()).setUsername(dbUser.getUsername())
-                .setEmail(dbUser.getEmail()).setGender(dbUser.getGender());
+                .setEmail(dbUser.getEmail()).setGender(dbUser.getGender()).setNickname(dbUser.getNickname());
 
         String token = JwtUtil.createJWT(dbUser.getUserId().toString(), JSON.toJSONString(authUser), AuthConstant.JWT_TOKEN_EXPIRED);
         return ResultUtil.getSuccess(String.class, token);

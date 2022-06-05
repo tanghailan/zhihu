@@ -6,7 +6,9 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @author coderman
@@ -17,6 +19,8 @@ import org.springframework.context.annotation.FilterType;
 @SpringBootApplication
 @ComponentScan(basePackages = {CommonConstant.BASE_PACKAGE}, excludeFilters = {@ComponentScan.Filter(value = {ResultAspect.class}, type = FilterType.ASSIGNABLE_TYPE)})
 @MapperScan(basePackages = {CommonConstant.BASE_DAO_PACKAGE})
+@EnableAspectJAutoProxy
+@EnableTransactionManagement
 public class ZhihuApplication {
 
     public static void main(String[] args) {

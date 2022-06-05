@@ -20,6 +20,9 @@ public class AuthUserVO {
     @ApiModelProperty(value = "用户名")
     private String username;
 
+    @ApiModelProperty(value = "昵称")
+    private String nickname;
+
     @ApiModelProperty(value = "邮箱地址")
     private String email;
 

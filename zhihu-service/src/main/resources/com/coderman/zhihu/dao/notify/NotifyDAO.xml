@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coderman.zhihu.dao.notify.NotifyDAO">
+  <resultMap id="BaseResultMap" type="com.coderman.zhihu.model.notify.NotifyModel">
+    <id column="notify_id" jdbcType="INTEGER" property="notifyId" />
+    <result column="msg_title" jdbcType="VARCHAR" property="msgTitle" />
+    <result column="msg_type" jdbcType="INTEGER" property="msgType" />
+    <result column="from_user_id" jdbcType="INTEGER" property="fromUserId" />
+    <result column="is_read" jdbcType="BIT" property="isRead" />
+    <result column="relation_id" jdbcType="INTEGER" property="relationId" />
+    <result column="to_user_id" jdbcType="INTEGER" property="toUserId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    notify_id, msg_title, msg_type, from_user_id, is_read, relation_id, to_user_id, create_time, 
+    update_time
+  </sql>
+  <select id="selectByExample" parameterType="com.coderman.zhihu.model.notify.NotifyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from zhihu_notify
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zhihu_notify
+    where notify_id = #{notifyId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from zhihu_notify
+    where notify_id = #{notifyId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.coderman.zhihu.model.notify.NotifyExample">
+    delete from zhihu_notify
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.coderman.zhihu.model.notify.NotifyModel">
+    insert into zhihu_notify (notify_id, msg_title, msg_type, 
+      from_user_id, is_read, relation_id, 
+      to_user_id, create_time, update_time
+      )
+    values (#{notifyId,jdbcType=INTEGER}, #{msgTitle,jdbcType=VARCHAR}, #{msgType,jdbcType=INTEGER}, 
+      #{fromUserId,jdbcType=INTEGER}, #{isRead,jdbcType=BIT}, #{relationId,jdbcType=INTEGER}, 
+      #{toUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.coderman.zhihu.model.notify.NotifyModel">
+    insert into zhihu_notify
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="notifyId != null">
+        notify_id,
+      </if>
+      <if test="msgTitle != null">
+        msg_title,
+      </if>
+      <if test="msgType != null">
+        msg_type,
+      </if>
+      <if test="fromUserId != null">
+        from_user_id,
+      </if>
+      <if test="isRead != null">
+        is_read,
+      </if>
+      <if test="relationId != null">
+        relation_id,
+      </if>
+      <if test="toUserId != null">
+        to_user_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="notifyId != null">
+        #{notifyId,jdbcType=INTEGER},
+      </if>
+      <if test="msgTitle != null">
+        #{msgTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="msgType != null">
+        #{msgType,jdbcType=INTEGER},
+      </if>
+      <if test="fromUserId != null">
+        #{fromUserId,jdbcType=INTEGER},
+      </if>
+      <if test="isRead != null">
+        #{isRead,jdbcType=BIT},
+      </if>
+      <if test="relationId != null">
+        #{relationId,jdbcType=INTEGER},
+      </if>
+      <if test="toUserId != null">
+        #{toUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.coderman.zhihu.model.notify.NotifyExample" resultType="java.lang.Long">
+    select count(*) from zhihu_notify
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update zhihu_notify
+    <set>
+      <if test="record.notifyId != null">
+        notify_id = #{record.notifyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.msgTitle != null">
+        msg_title = #{record.msgTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.msgType != null">
+        msg_type = #{record.msgType,jdbcType=INTEGER},
+      </if>
+      <if test="record.fromUserId != null">
+        from_user_id = #{record.fromUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.isRead != null">
+        is_read = #{record.isRead,jdbcType=BIT},
+      </if>
+      <if test="record.relationId != null">
+        relation_id = #{record.relationId,jdbcType=INTEGER},
+      </if>
+      <if test="record.toUserId != null">
+        to_user_id = #{record.toUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update zhihu_notify
+    set notify_id = #{record.notifyId,jdbcType=INTEGER},
+      msg_title = #{record.msgTitle,jdbcType=VARCHAR},
+      msg_type = #{record.msgType,jdbcType=INTEGER},
+      from_user_id = #{record.fromUserId,jdbcType=INTEGER},
+      is_read = #{record.isRead,jdbcType=BIT},
+      relation_id = #{record.relationId,jdbcType=INTEGER},
+      to_user_id = #{record.toUserId,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.coderman.zhihu.model.notify.NotifyModel">
+    update zhihu_notify
+    <set>
+      <if test="msgTitle != null">
+        msg_title = #{msgTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="msgType != null">
+        msg_type = #{msgType,jdbcType=INTEGER},
+      </if>
+      <if test="fromUserId != null">
+        from_user_id = #{fromUserId,jdbcType=INTEGER},
+      </if>
+      <if test="isRead != null">
+        is_read = #{isRead,jdbcType=BIT},
+      </if>
+      <if test="relationId != null">
+        relation_id = #{relationId,jdbcType=INTEGER},
+      </if>
+      <if test="toUserId != null">
+        to_user_id = #{toUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where notify_id = #{notifyId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.coderman.zhihu.model.notify.NotifyModel">
+    update zhihu_notify
+    set msg_title = #{msgTitle,jdbcType=VARCHAR},
+      msg_type = #{msgType,jdbcType=INTEGER},
+      from_user_id = #{fromUserId,jdbcType=INTEGER},
+      is_read = #{isRead,jdbcType=BIT},
+      relation_id = #{relationId,jdbcType=INTEGER},
+      to_user_id = #{toUserId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where notify_id = #{notifyId,jdbcType=INTEGER}
+  </update>
+</mapper>

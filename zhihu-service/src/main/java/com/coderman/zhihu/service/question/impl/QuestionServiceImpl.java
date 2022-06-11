@@ -5,6 +5,7 @@ import com.coderman.api.util.ResultUtil;
 import com.coderman.api.vo.PageVO;
 import com.coderman.api.vo.ResultVO;
 import com.coderman.zhihu.constant.NotifyConstant;
+import com.coderman.zhihu.constant.QuestionConstant;
 import com.coderman.zhihu.constant.UserConstant;
 import com.coderman.zhihu.dao.question.QuestionDAO;
 import com.coderman.zhihu.dao.question.QuestionFollowDAO;
@@ -22,6 +23,7 @@ import com.coderman.zhihu.vo.question.QuestionVO;
 import com.coderman.zhihu.vo.user.AuthUserVO;
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Lists;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -39,6 +41,7 @@ import java.util.stream.Collectors;
  * @date 2022/5/2818:25
  */
 @Service
+@Slf4j
 public class QuestionServiceImpl implements QuestionService {
 
     @Resource
@@ -133,7 +136,7 @@ public class QuestionServiceImpl implements QuestionService {
 
             // 存在之前关注的记录,但是后面取消了,这里改变状态即可.
             QuestionFollowModel update = existOp.get();
-            update.setFollowStatus(Boolean.TRUE);
+            update.setFollowStatus(QuestionConstant.FOLLOW_STATUS_YES);
             int count = this.questionFollowDAO.updateByPrimaryKeySelective(update);
 
             if (count < 0) {
@@ -146,7 +149,7 @@ public class QuestionServiceImpl implements QuestionService {
             QuestionFollowModel insert = new QuestionFollowModel();
             insert.setCreateTime(new Date());
             insert.setUserId(current.getUserId());
-            insert.setFollowStatus(Boolean.TRUE);
+            insert.setFollowStatus(QuestionConstant.FOLLOW_STATUS_YES);
             insert.setQuestionId(questionId);
             int count = this.questionFollowDAO.insertSelective(insert);
 
@@ -196,7 +199,7 @@ public class QuestionServiceImpl implements QuestionService {
 
 
         QuestionFollowModel followModel = existOp.get();
-        if (BooleanUtils.isNotTrue(followModel.getFollowStatus())) {
+        if (!QuestionConstant.FOLLOW_STATUS_YES.equals(followModel.getFollowStatus())) {
             return ResultUtil.getWarn("只有已关注的问题才能取消关注");
         }
 
